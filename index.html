@@ -743,25 +743,27 @@
         }
 
         // وظائف الحاسبة (مؤقتة حتى يأتي app.js)
-        window.calculateLoan = function() {
-            const amount = parseFloat(document.getElementById('loanAmount').value) || 50000;
-            const months = parseInt(document.getElementById('loanTermRange').value) || 36;
-            const rate = parseFloat(document.getElementById('interestRateRange').value) || 8;
-            
-            const monthlyRate = rate / 100 / 12;
-            const monthlyPayment = (amount * monthlyRate * Math.pow(1 + monthlyRate, months)) / 
-                                 (Math.pow(1 + monthlyRate, months) - 1);
-            const totalPayment = monthlyPayment * months;
-            const totalInterest = totalPayment - amount;
-            
-            document.getElementById('monthlyPayment').textContent = monthlyPayment.toFixed(2) + ' ر.س';
-            document.getElementById('totalPayment').textContent = totalPayment.toFixed(2) + ' ر.س';
-            document.getElementById('totalInterest').textContent = totalInterest.toFixed(2) + ' ر.س';
-            document.getElementById('interestPercentage').textContent = ((totalInterest / amount) * 100).toFixed(2) + '%';
-            
-            document.getElementById('loanResults').style.display = 'none';
-            document.getElementById('loanDetails').style.display = 'block';
-        };
+  window.calculateLoan = function() {
+    const amount = parseFloat(document.getElementById('loanAmount').value) || 50000;
+    const months = parseInt(document.getElementById('loanTermRange').value) || 36;
+    const rate = parseFloat(document.getElementById('interestRateRange').value) || 8;
+    
+    const monthlyRate = rate / 100 / 12;
+    const monthlyPayment = (amount * monthlyRate * Math.pow(1 + monthlyRate, months)) / 
+                         (Math.pow(1 + monthlyRate, months) - 1);
+    const totalPayment = monthlyPayment * months;
+    const totalInterest = totalPayment - amount;
+    
+    document.getElementById('monthlyPayment').textContent = monthlyPayment.toFixed(2) + ' ر.س';
+    document.getElementById('totalPayment').textContent = totalPayment.toFixed(2) + ' ر.س';
+    document.getElementById('totalInterest').textContent = totalInterest.toFixed(2) + ' ر.س';
+    
+    // إصلاح هنا: عرض نسبة الفائدة السنوية (المدخلة) بدل النسبة الإجمالية
+    document.getElementById('interestPercentage').textContent = rate.toFixed(2) + '%';
+    
+    document.getElementById('loanResults').style.display = 'none';
+    document.getElementById('loanDetails').style.display = 'block';
+};
 
         window.calculateMortgage = function() {
             const price = parseFloat(document.getElementById('propertyPrice').value) || 500000;
@@ -814,3 +816,4 @@
     </script>
 </body>
 </html>
+
