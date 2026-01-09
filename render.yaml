@@ -1,0 +1,45 @@
+# ملف تكوين Render.com
+services:
+  - type: web
+    name: personal-accountant
+    env: node
+    region: frankfurt  # أو singapore حسب موقعك
+    plan: free
+    healthCheckPath: /
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: APP_NAME
+        value: "المحاسب الشخصي"
+      - key: APP_VERSION
+        value: "2.0.0"
+    
+    # الموارد (للخطة المجانية)
+    resources:
+      cpu: 0.1
+      memoryMB: 512
+      diskMB: 1024
+    
+    # إعدادات السكيل
+    autoDeploy: true
+    numInstances: 1
+    
+    # القواعد
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /
+    
+    # إعادة التشغيل التلقائي
+    restartPolicy: always
+
+# قاعدة بيانات (اختياري - للترقية)
+# databases:
+#   - name: accountant-db
+#     databaseName: accountant
+#     plan: free
+#     region: frankfurt
