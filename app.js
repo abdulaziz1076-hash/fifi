@@ -1,6 +1,6 @@
 /**
  * المحاسب الشخصي المتكامل - التطبيق الرئيسي
- * الإصدار: 2.2.0 - إصلاحات كاملة
+ * الإصدار: 3.0.0 - متوافق مع التصميم الجديد
  */
 
 // ==================== المتغيرات العالمية ====================
@@ -29,14 +29,60 @@ function initUI() {
         document.getElementById('dateInput').value = today;
     }
     
-    // عرض لوحة التحكم كافتراضي
-    showSection('dashboard');
+    // تعيين القيم الافتراضية للحاسبات
+    setDefaultCalculatorValues();
+}
+
+function setDefaultCalculatorValues() {
+    // حاسبة القروض
+    if (document.getElementById('loanTermValue')) {
+        document.getElementById('loanTermValue').textContent = '36 أشهر';
+    }
+    if (document.getElementById('interestRateValue')) {
+        document.getElementById('interestRateValue').textContent = '5%';
+    }
+    
+    // حاسبة العقار
+    if (document.getElementById('downPaymentPercentValue')) {
+        document.getElementById('downPaymentPercentValue').textContent = '20%';
+    }
+    if (document.getElementById('mortgageYearsValue')) {
+        document.getElementById('mortgageYearsValue').textContent = '15 سنة';
+    }
+    if (document.getElementById('mortgageInterestValue')) {
+        document.getElementById('mortgageInterestValue').textContent = '4%';
+    }
+    
+    // حاسبة التوفير
+    if (document.getElementById('savingsYearsValue')) {
+        document.getElementById('savingsYearsValue').textContent = '10 سنوات';
+    }
+    if (document.getElementById('annualReturnValue')) {
+        document.getElementById('annualReturnValue').textContent = '7%';
+    }
 }
 
 function setupEventListeners() {
     // تحديث القيم في حاسبة القروض
+    setupLoanCalculatorListeners();
+    
+    // البحث في السجل
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', function(e) {
+            filterTransactions(e.target.value);
+        });
+    }
+}
+
+function setupLoanCalculatorListeners() {
     const loanTermRange = document.getElementById('loanTermRange');
     const interestRateRange = document.getElementById('interestRateRange');
+    const downPaymentPercent = document.getElementById('downPaymentPercent');
+    const mortgageYears = document.getElementById('mortgageYears');
+    const mortgageInterest = document.getElementById('mortgageInterest');
+    const savingsYears = document.getElementById('savingsYears');
+    const annualReturn = document.getElementById('annualReturn');
     
     if (loanTermRange) {
         loanTermRange.addEventListener('input', function(e) {
@@ -50,11 +96,33 @@ function setupEventListeners() {
         });
     }
     
-    // البحث في السجل
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        searchInput.addEventListener('input', function(e) {
-            filterTransactions(e.target.value);
+    if (downPaymentPercent) {
+        downPaymentPercent.addEventListener('input', function(e) {
+            document.getElementById('downPaymentPercentValue').textContent = e.target.value + '%';
+        });
+    }
+    
+    if (mortgageYears) {
+        mortgageYears.addEventListener('input', function(e) {
+            document.getElementById('mortgageYearsValue').textContent = e.target.value + ' سنة';
+        });
+    }
+    
+    if (mortgageInterest) {
+        mortgageInterest.addEventListener('input', function(e) {
+            document.getElementById('mortgageInterestValue').textContent = e.target.value + '%';
+        });
+    }
+    
+    if (savingsYears) {
+        savingsYears.addEventListener('input', function(e) {
+            document.getElementById('savingsYearsValue').textContent = e.target.value + ' سنوات';
+        });
+    }
+    
+    if (annualReturn) {
+        annualReturn.addEventListener('input', function(e) {
+            document.getElementById('annualReturnValue').textContent = e.target.value + '%';
         });
     }
 }
@@ -437,6 +505,382 @@ function getFinancialAdvice(savingsRate) {
     return 'ميزانيتك سلبية، تحتاج مراجعة عاجلة';
 }
 
+// ==================== الحاسبات المالية ====================
+function calculateLoan() {
+    const amount = parseFloat(document.getElementById('loanAmount').value) || 50000;
+    const months = parseInt(document.getElementById('loanTermRange').value) || 36;
+    const rate = parseFloat(document.getElementById('interestRateRange').value) || 5;
+    
+    if (!amount || amount <= 0) {
+        showAlert('الرجاء إدخال مبلغ القرض', 'warning');
+        return;
+    }
+    
+    const monthlyRate = rate / 100 / 12;
+    const monthlyPayment = (amount * monthlyRate * Math.pow(1 + monthlyRate, months)) / 
+                         (Math.pow(1 + monthlyRate, months) - 1);
+    const totalPayment = monthlyPayment * months;
+    const totalInterest = totalPayment - amount;
+    
+    // استخدام العناصر الجديدة من index.html المعدل
+    const monthlyPaymentEl = document.getElementById('monthlyPayment') || document.querySelector('#loanDetails #monthlyPayment');
+    const totalPaymentEl = document.getElementById('totalPayment') || document.querySelector('#loanDetails #totalPayment');
+    const totalInterestEl = document.getElementById('totalInterest') || document.querySelector('#loanDetails #totalInterest');
+    const interestPercentageEl = document.getElementById('interestPercentage') || document.querySelector('#loanDetails #interestPercentage');
+    
+    if (monthlyPaymentEl) monthlyPaymentEl.textContent = monthlyPayment.toFixed(2) + ' ر.س';
+    if (totalPaymentEl) totalPaymentEl.textContent = totalPayment.toFixed(2) + ' ر.س';
+    if (totalInterestEl) totalInterestEl.textContent = totalInterest.toFixed(2) + ' ر.س';
+    if (interestPercentageEl) interestPercentageEl.textContent = rate.toFixed(2) + '%'; // ✅ إصلاح هنا: نسبة الفائدة السنوية
+    
+    // إخفاء وإظهار النتائج
+    const loanResults = document.getElementById('loanResults');
+    const loanDetails = document.getElementById('loanDetails');
+    
+    if (loanResults) loanResults.style.display = 'none';
+    if (loanDetails) loanDetails.style.display = 'block';
+}
+
+function calculateMortgage() {
+    const price = parseFloat(document.getElementById('propertyPrice').value) || 500000;
+    const downPercent = parseFloat(document.getElementById('downPaymentPercent').value) || 20;
+    const years = parseInt(document.getElementById('mortgageYears').value) || 15;
+    const rate = parseFloat(document.getElementById('mortgageInterest').value) || 4;
+    
+    const downPayment = price * (downPercent / 100);
+    const loanAmount = price - downPayment;
+    const months = years * 12;
+    const monthlyRate = rate / 100 / 12;
+    const monthlyPayment = (loanAmount * monthlyRate * Math.pow(1 + monthlyRate, months)) / 
+                         (Math.pow(1 + monthlyRate, months) - 1);
+    const totalPayment = monthlyPayment * months;
+    const totalInterest = totalPayment - loanAmount;
+    
+    // تحديث النتائج
+    const elements = {
+        'propertyPriceValue': price,
+        'downPaymentValue': downPayment,
+        'mortgageAmount': loanAmount,
+        'mortgageMonthly': monthlyPayment,
+        'mortgageTotal': totalPayment,
+        'mortgageInterestTotal': totalInterest
+    };
+    
+    Object.entries(elements).forEach(([id, value]) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value.toFixed(2) + ' ر.س';
+    });
+    
+    // إخفاء وإظهار النتائج
+    const mortgageResults = document.getElementById('mortgageResults');
+    const mortgageDetails = document.getElementById('mortgageDetails');
+    
+    if (mortgageResults) mortgageResults.style.display = 'none';
+    if (mortgageDetails) mortgageDetails.style.display = 'block';
+}
+
+function calculateSavings() {
+    const initial = parseFloat(document.getElementById('initialAmount').value) || 1000;
+    const monthly = parseFloat(document.getElementById('monthlyDeposit').value) || 500;
+    const years = parseInt(document.getElementById('savingsYears').value) || 10;
+    const rate = parseFloat(document.getElementById('annualReturn').value) || 7;
+    
+    const months = years * 12;
+    const monthlyRate = rate / 100 / 12;
+    let futureValue = initial;
+    
+    for (let i = 0; i < months; i++) {
+        futureValue = futureValue * (1 + monthlyRate) + monthly;
+    }
+    
+    const totalDeposits = initial + (monthly * months);
+    const totalEarnings = futureValue - totalDeposits;
+    const earningsPercentage = (totalEarnings / totalDeposits) * 100;
+    
+    // تحديث النتائج
+    const elements = {
+        'finalAmount': futureValue,
+        'totalDeposits': totalDeposits,
+        'totalEarnings': totalEarnings,
+        'earningsPercentage': earningsPercentage
+    };
+    
+    Object.entries(elements).forEach(([id, value]) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value.toFixed(2) + (id === 'earningsPercentage' ? '%' : ' ر.س');
+    });
+    
+    // إخفاء وإظهار النتائج
+    const savingsResults = document.getElementById('savingsResults');
+    const savingsDetails = document.getElementById('savingsDetails');
+    
+    if (savingsResults) savingsResults.style.display = 'none';
+    if (savingsDetails) savingsDetails.style.display = 'block';
+}
+
+// ==================== وظائف الصفحات الجديدة ====================
+
+// وظائف الميزانية
+function setMonthlyBudget() {
+    const budget = document.getElementById('monthlyBudget').value;
+    if (!budget || budget <= 0) {
+        showAlert('الرجاء إدخال ميزانية صحيحة', 'warning');
+        return;
+    }
+    
+    localStorage.setItem('monthlyBudget', budget);
+    showAlert('تم تعيين الميزانية الشهرية: ' + budget + ' ر.س', 'success');
+    
+    // تحديث عرض الميزانية
+    setTimeout(updateBudgetDisplay, 100);
+}
+
+function updateBudgetDisplay() {
+    const budget = localStorage.getItem('monthlyBudget') || 5000;
+    const budgetEl = document.getElementById('monthlyBudget');
+    if (budgetEl) budgetEl.value = budget;
+    
+    // هنا يمكن إضافة تحديث توزيع الميزانية والرسوم البيانية
+}
+
+// وظائف الأهداف
+function addFinancialGoal() {
+    const nameInput = document.getElementById('goalName');
+    const amountInput = document.getElementById('goalAmount');
+    const monthsInput = document.getElementById('goalMonths');
+    const currentInput = document.getElementById('goalCurrent');
+    
+    const name = nameInput.value.trim();
+    const amount = parseFloat(amountInput.value);
+    const months = parseInt(monthsInput.value);
+    const current = parseFloat(currentInput.value) || 0;
+    
+    if (!name || !amount || !months) {
+        showAlert('الرجاء ملء جميع الحقول المطلوبة', 'warning');
+        return;
+    }
+    
+    if (amount <= 0 || months <= 0) {
+        showAlert('القيم المدخلة غير صحيحة', 'warning');
+        return;
+    }
+    
+    if (current > amount) {
+        showAlert('المبلغ الحالي لا يمكن أن يكون أكبر من المبلغ المطلوب', 'warning');
+        return;
+    }
+    
+    const monthlyAmount = (amount - current) / months;
+    const progress = (current / amount) * 100;
+    
+    const goal = {
+        id: Date.now(),
+        name: name,
+        targetAmount: amount,
+        currentAmount: current,
+        months: months,
+        monthlyTarget: monthlyAmount,
+        progress: progress,
+        created: new Date().toISOString()
+    };
+    
+    // حفظ الهدف
+    const goals = JSON.parse(localStorage.getItem('financialGoals') || '[]');
+    goals.push(goal);
+    localStorage.setItem('financialGoals', JSON.stringify(goals));
+    
+    showAlert('تم إضافة الهدف: ' + name + ' بمبلغ ' + amount + ' ر.س', 'success');
+    
+    // تنظيف الحقول
+    nameInput.value = '';
+    amountInput.value = '';
+    monthsInput.value = '';
+    currentInput.value = '0';
+    
+    // تحديث عرض الأهداف
+    setTimeout(displayFinancialGoals, 100);
+}
+
+function displayFinancialGoals() {
+    const container = document.getElementById('goalsList');
+    if (!container) return;
+    
+    const goals = JSON.parse(localStorage.getItem('financialGoals') || '[]');
+    
+    if (goals.length === 0) {
+        container.innerHTML = `
+            <div class="text-center text-muted py-5">
+                <i class="fas fa-bullseye fa-3x mb-3"></i>
+                <p>لا توجد أهداف مالية حالياً</p>
+            </div>
+        `;
+        return;
+    }
+    
+    container.innerHTML = goals.map(goal => {
+        const progressPercentage = Math.min(100, (goal.currentAmount / goal.targetAmount) * 100);
+        const remaining = goal.targetAmount - goal.currentAmount;
+        const status = progressPercentage === 100 ? 'مكتمل' : 
+                      progressPercentage >= 75 ? 'متقدم' : 
+                      progressPercentage >= 50 ? 'متوسط' : 
+                      progressPercentage >= 25 ? 'بدأ' : 'جديد';
+        
+        let statusClass = 'primary';
+        if (progressPercentage === 100) statusClass = 'success';
+        else if (progressPercentage >= 75) statusClass = 'info';
+        else if (progressPercentage >= 50) statusClass = 'warning';
+        
+        return `
+            <div class="card mb-3 border-${statusClass}">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-3">
+                            <h6 class="text-${statusClass} mb-0">${goal.name}</h6>
+                            <small class="text-muted">${status}</small>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="mb-2">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <small>${goal.currentAmount.toFixed(2)} / ${goal.targetAmount.toFixed(2)} ر.س</small>
+                                    <small>${progressPercentage.toFixed(1)}%</small>
+                                </div>
+                                <div class="progress" style="height: 10px;">
+                                    <div class="progress-bar bg-${statusClass}" style="width: ${progressPercentage}%"></div>
+                                </div>
+                            </div>
+                            <small class="text-muted">${remaining.toFixed(2)} ر.س متبقية</small>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-end">
+                                <h6 class="text-primary mb-1">${goal.monthlyTarget.toFixed(2)} ر.س/شهر</h6>
+                                <small class="text-muted">لـ ${goal.months} شهراً</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+// وظائف التقارير
+function generateReport() {
+    const period = document.getElementById('reportPeriod').value;
+    const type = document.getElementById('reportType').value;
+    
+    // حساب الإحصائيات
+    const totalIncome = transactions
+        .filter(t => t.type === 'income')
+        .reduce((sum, t) => sum + t.amount, 0);
+        
+    const totalExpense = transactions
+        .filter(t => t.type === 'expense')
+        .reduce((sum, t) => sum + t.amount, 0);
+    
+    const reportData = {
+        title: `تقرير ${type} - ${period}`,
+        period: period,
+        type: type,
+        totalIncome: totalIncome,
+        totalExpense: totalExpense,
+        netSavings: totalIncome - totalExpense,
+        transactionCount: transactions.length,
+        generatedAt: new Date().toLocaleString('ar-SA'),
+        transactions: type === 'overview' ? transactions.slice(0, 20) : []
+    };
+    
+    // إنشاء التقرير في نافذة جديدة
+    const reportWindow = window.open('', '_blank');
+    reportWindow.document.write(`
+        <html dir="rtl" lang="ar">
+        <head>
+            <title>تقرير مالي</title>
+            <style>
+                body { font-family: 'Tajawal', sans-serif; padding: 20px; }
+                .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #333; padding-bottom: 20px; }
+                .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+                .stat-card { background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: center; }
+                .income { color: #28a745; }
+                .expense { color: #dc3545; }
+                .savings { color: #007bff; }
+                table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                th, td { padding: 10px; text-align: right; border: 1px solid #ddd; }
+                th { background-color: #f1f3f5; }
+                .no-print { margin-top: 30px; text-align: center; }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h2>${reportData.title}</h2>
+                <p>تم إنشاؤه في: ${reportData.generatedAt}</p>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-card">
+                    <h3 class="income">${reportData.totalIncome.toFixed(2)} ر.س</h3>
+                    <p>إجمالي الدخل</p>
+                </div>
+                <div class="stat-card">
+                    <h3 class="expense">${reportData.totalExpense.toFixed(2)} ر.س</h3>
+                    <p>إجمالي المصروفات</p>
+                </div>
+                <div class="stat-card">
+                    <h3 class="savings">${reportData.netSavings.toFixed(2)} ر.س</h3>
+                    <p>صافي المدخرات</p>
+                </div>
+                <div class="stat-card">
+                    <h3>${reportData.transactionCount}</h3>
+                    <p>عدد المعاملات</p>
+                </div>
+            </div>
+            
+            ${reportData.transactions.length > 0 ? `
+                <h3>آخر المعاملات</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>التاريخ</th>
+                            <th>الوصف</th>
+                            <th>النوع</th>
+                            <th>المبلغ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${reportData.transactions.map(t => `
+                            <tr>
+                                <td>${formatDate(t.date)}</td>
+                                <td>${t.name}</td>
+                                <td>${t.type === 'income' ? 'دخل' : 'مصروف'}</td>
+                                <td>${t.amount.toFixed(2)} ر.س</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            ` : ''}
+            
+            <div class="no-print">
+                <button onclick="window.print()" style="padding: 10px 20px; margin: 10px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                    طباعة التقرير
+                </button>
+                <button onclick="window.close()" style="padding: 10px 20px; margin: 10px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                    إغلاق
+                </button>
+            </div>
+            
+            <script>
+                // أتمتة الطباعة عند فتح التقرير
+                setTimeout(() => {
+                    window.print();
+                }, 500);
+            </script>
+        </body>
+        </html>
+    `);
+    reportWindow.document.close();
+    
+    showAlert('تم إنشاء التقرير بنجاح', 'success');
+}
+
 // ==================== دوال المساعدة ====================
 function showAlert(message, type = 'info', duration = 3000) {
     // إنشاء عنصر التنبيه
@@ -478,7 +922,7 @@ function exportData() {
         transactions: transactions,
         categories: categories,
         exportDate: new Date().toISOString(),
-        version: '2.2.0'
+        version: '3.0.0'
     };
     
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -527,134 +971,6 @@ function saveCategories() {
     localStorage.setItem('categories', JSON.stringify(categories));
 }
 
-// ==================== دالة عرض الأقسام ====================
-function showSection(sectionId) {
-    // إخفاء جميع الأقسام
-    document.querySelectorAll('.content-section').forEach(section => {
-        section.style.display = 'none';
-    });
-    
-    // إظهار القسم المطلوب
-    const targetSection = document.getElementById(sectionId);
-    if (targetSection) {
-        targetSection.style.display = 'block';
-    }
-    
-    // تحديث القائمة النشطة
-    document.querySelectorAll('.list-group-item').forEach(item => {
-        item.classList.remove('active');
-    });
-    
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.classList.remove('active');
-    });
-    
-    const activeItem = document.querySelector(`[onclick="showSection('${sectionId}')"]`);
-    if (activeItem) {
-        activeItem.classList.add('active');
-    }
-    
-    const activeNav = document.querySelector(`.nav-link[onclick="showSection('${sectionId}')"]`);
-    if (activeNav) {
-        activeNav.classList.add('active');
-    }
-    
-    // تحديث محتوى القسم إذا لزم
-    switch(sectionId) {
-        case 'dashboard':
-            updateDashboard();
-            break;
-        case 'transactions':
-            displayTransactions();
-            break;
-        case 'budgetPlanner':
-            if (typeof budgetManager !== 'undefined') {
-                setTimeout(() => budgetManager.displayBudgets(), 100);
-            }
-            break;
-        case 'financialGoals':
-            if (typeof goalsManager !== 'undefined') {
-                setTimeout(() => goalsManager.displayGoals(), 100);
-            }
-            break;
-    }
-}
-
-// ==================== الحاسبات المالية ====================
-function calculateLoan() {
-    const amount = parseFloat(document.getElementById('loanAmount').value) || 50000;
-    const months = parseInt(document.getElementById('loanTermRange').value) || 36;
-    const rate = parseFloat(document.getElementById('interestRateRange').value) || 8;
-    
-    if (!amount || amount <= 0) {
-        showAlert('الرجاء إدخال مبلغ القرض', 'warning');
-        return;
-    }
-    
-    const monthlyRate = rate / 100 / 12;
-    const monthlyPayment = (amount * monthlyRate * Math.pow(1 + monthlyRate, months)) / 
-                         (Math.pow(1 + monthlyRate, months) - 1);
-    const totalPayment = monthlyPayment * months;
-    const totalInterest = totalPayment - amount;
-    
-    document.getElementById('monthlyPayment').textContent = monthlyPayment.toFixed(2) + ' ر.س';
-    document.getElementById('totalPayment').textContent = totalPayment.toFixed(2) + ' ر.س';
-    document.getElementById('totalInterest').textContent = totalInterest.toFixed(2) + ' ر.س';
-    document.getElementById('interestPercentage').textContent = ((totalInterest / amount) * 100).toFixed(2) + '%';
-    
-    document.getElementById('loanResults').style.display = 'none';
-    document.getElementById('loanDetails').style.display = 'block';
-}
-
-function calculateMortgage() {
-    const price = parseFloat(document.getElementById('propertyPrice').value) || 500000;
-    const downPayment = parseFloat(document.getElementById('downPayment').value) || 100000;
-    const years = parseInt(document.getElementById('mortgageYears').value) || 15;
-    const rate = parseFloat(document.getElementById('mortgageInterest').value) || 4;
-    
-    const loanAmount = price - downPayment;
-    const months = years * 12;
-    const monthlyRate = rate / 100 / 12;
-    const monthlyPayment = (loanAmount * monthlyRate * Math.pow(1 + monthlyRate, months)) / 
-                         (Math.pow(1 + monthlyRate, months) - 1);
-    const totalPayment = monthlyPayment * months;
-    const totalInterest = totalPayment - loanAmount;
-    
-    document.getElementById('mortgageAmount').textContent = loanAmount.toFixed(2) + ' ر.س';
-    document.getElementById('mortgageMonthly').textContent = monthlyPayment.toFixed(2) + ' ر.س';
-    document.getElementById('mortgageTotal').textContent = totalPayment.toFixed(2) + ' ر.س';
-    document.getElementById('mortgageInterestTotal').textContent = totalInterest.toFixed(2) + ' ر.س';
-    
-    document.getElementById('mortgageResults').style.display = 'none';
-    document.getElementById('mortgageDetails').style.display = 'block';
-}
-
-function calculateSavings() {
-    const initial = parseFloat(document.getElementById('initialAmount').value) || 1000;
-    const monthly = parseFloat(document.getElementById('monthlyDeposit').value) || 500;
-    const years = parseInt(document.getElementById('savingsYears').value) || 10;
-    const rate = parseFloat(document.getElementById('annualReturn').value) || 7;
-    
-    const months = years * 12;
-    const monthlyRate = rate / 100 / 12;
-    let futureValue = initial;
-    
-    for (let i = 0; i < months; i++) {
-        futureValue = futureValue * (1 + monthlyRate) + monthly;
-    }
-    
-    const totalDeposits = initial + (monthly * months);
-    const totalEarnings = futureValue - totalDeposits;
-    
-    document.getElementById('finalAmount').textContent = futureValue.toFixed(2) + ' ر.س';
-    document.getElementById('totalDeposits').textContent = totalDeposits.toFixed(2) + ' ر.س';
-    document.getElementById('totalEarnings').textContent = totalEarnings.toFixed(2) + ' ر.س';
-    document.getElementById('earningsPercentage').textContent = ((totalEarnings / totalDeposits) * 100).toFixed(2) + '%';
-    
-    document.getElementById('savingsResults').style.display = 'none';
-    document.getElementById('savingsDetails').style.display = 'block';
-}
-
 // ==================== التصدير العالمي ====================
 window.addTransaction = addTransaction;
 window.saveEdit = saveEdit;
@@ -666,6 +982,10 @@ window.exportData = exportData;
 window.calculateLoan = calculateLoan;
 window.calculateMortgage = calculateMortgage;
 window.calculateSavings = calculateSavings;
+window.setMonthlyBudget = setMonthlyBudget;
+window.addFinancialGoal = addFinancialGoal;
+window.generateReport = generateReport;
+window.displayFinancialGoals = displayFinancialGoals;
 
 // تهيئة عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', function() {
