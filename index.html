@@ -3,20 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المحاسب الشخصي المتكامل - إدارة مالية شاملة</title>
+    <title>المحاسب الشخصي المتكامل - إدارة مالية ذكية</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
-    <!-- إضافة خط عربي -->
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <!-- خطوط عربية محسنة -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=El+Messiri:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* إصلاحات فورية */
+        :root {
+            --primary-color: #2d4059;
+            --secondary-color: #ea5455;
+            --accent-color: #f07b3f;
+            --success-color: #00b894;
+            --info-color: #0984e3;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+        
         body {
-            font-family: 'Tajawal', sans-serif;
+            font-family: 'Tajawal', 'El Messiri', sans-serif;
+            background-color: #f8f9fa;
             padding-bottom: 20px;
+            color: #333;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), #1a2a40) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 12px 0;
+        }
+        
+        .navbar-brand {
+            font-family: 'El Messiri', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
         }
         
         .content-section {
@@ -34,44 +57,147 @@
         }
         
         .card {
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            border: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 24px;
         }
         
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+        }
+        
+        .card-header {
+            border-radius: 12px 12px 0 0 !important;
+            padding: 18px 24px;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .card-header.bg-primary { background: linear-gradient(135deg, var(--primary-color), #3a506b) !important; }
+        .card-header.bg-success { background: linear-gradient(135deg, var(--success-color), #00a085) !important; }
+        .card-header.bg-info { background: linear-gradient(135deg, var(--info-color), #0a7bc2) !important; }
+        .card-header.bg-warning { background: linear-gradient(135deg, var(--accent-color), #e86a3d) !important; }
+        
         .btn {
-            border-radius: 8px;
+            border-radius: 10px;
             font-weight: 600;
+            padding: 10px 24px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary { background: linear-gradient(135deg, var(--primary-color), #3a506b); border: none; }
+        .btn-success { background: linear-gradient(135deg, var(--success-color), #00a085); border: none; }
+        .btn-warning { background: linear-gradient(135deg, var(--accent-color), #e86a3d); border: none; }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
         }
         
         .table th {
-            background-color: #f8f9fa;
+            background-color: #f1f3f5;
             font-weight: 700;
+            color: var(--primary-color);
+            border-top: none;
         }
         
         .income-badge {
             background-color: #d4edda;
             color: #155724;
-            padding: 4px 10px;
+            padding: 5px 12px;
             border-radius: 20px;
             font-size: 0.85rem;
+            font-weight: 600;
         }
         
         .expense-badge {
             background-color: #f8d7da;
             color: #721c24;
-            padding: 4px 10px;
+            padding: 5px 12px;
             border-radius: 20px;
             font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .stat-card {
+            border-radius: 12px;
+            padding: 20px;
+            color: white;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .stat-card .icon {
+            font-size: 2.5rem;
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+        
+        .stat-card h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .form-control, .form-select {
+            border-radius: 10px;
+            padding: 12px 16px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(45, 64, 89, 0.15);
+        }
+        
+        .form-range::-webkit-slider-thumb {
+            background: var(--primary-color);
+        }
+        
+        .footer {
+            background: var(--primary-color) !important;
+            color: white;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+        
+        /* تحسينات للجوال */
+        @media (max-width: 768px) {
+            .card-header {
+                padding: 15px 20px;
+                font-size: 1rem;
+            }
+            
+            .stat-card {
+                padding: 15px;
+                min-height: 100px;
+            }
+            
+            .stat-card h3 {
+                font-size: 1.5rem;
+            }
+        }
+        
+        /* ألوان مخصصة للرسوم البيانية */
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
         }
     </style>
 </head>
 <body>
     <!-- شريط التنقل -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="#" onclick="showSection('dashboard')">
-                <i class="fas fa-calculator me-2"></i>المحاسب الشخصي
+                <i class="fas fa-calculator me-2"></i>المحاسب الذكي
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -99,6 +225,11 @@
                         </ul>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showSection('budgetPlanner')">
+                            <i class="fas fa-chart-pie"></i> الميزانية
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="#" onclick="showSection('reports')">
                             <i class="fas fa-chart-bar"></i> التقارير
                         </a>
@@ -115,7 +246,7 @@
             <div class="col-lg-3 col-md-4">
                 <div class="card shadow mb-4">
                     <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0"><i class="fas fa-bars"></i> القائمة الرئيسية</h5>
+                        <h5 class="mb-0"><i class="fas fa-bars me-2"></i>القائمة الرئيسية</h5>
                     </div>
                     <div class="card-body p-0">
                         <div class="list-group list-group-flush">
@@ -135,13 +266,13 @@
                                 <i class="fas fa-piggy-bank me-2"></i>حاسبة التوفير
                             </a>
                             <a href="#" class="list-group-item list-group-item-action" onclick="showSection('budgetPlanner')">
-                                <i class="fas fa-chart-pie me-2"></i>الميزانية
+                                <i class="fas fa-chart-pie me-2"></i>الميزانية والتخطيط
                             </a>
                             <a href="#" class="list-group-item list-group-item-action" onclick="showSection('financialGoals')">
-                                <i class="fas fa-bullseye me-2"></i>الأهداف
+                                <i class="fas fa-bullseye me-2"></i>الأهداف المالية
                             </a>
                             <a href="#" class="list-group-item list-group-item-action" onclick="showSection('reports')">
-                                <i class="fas fa-file-invoice me-2"></i>التقارير
+                                <i class="fas fa-file-invoice me-2"></i>التقارير والتحليلات
                             </a>
                         </div>
                     </div>
@@ -150,11 +281,29 @@
                 <!-- ملخص سريع -->
                 <div class="card shadow">
                     <div class="card-header bg-info text-white">
-                        <h6 class="mb-0"><i class="fas fa-info-circle"></i> ملخص سريع</h6>
+                        <h6 class="mb-0"><i class="fas fa-info-circle me-2"></i>ملخص سريع</h6>
                     </div>
                     <div class="card-body" id="quickSummary">
                         <div class="text-center">
-                            <p class="text-muted">يتم التحميل...</p>
+                            <p class="text-muted mb-2"><i class="fas fa-sync fa-spin me-2"></i>يتم التحميل...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- تلميحات سريعة -->
+                <div class="card shadow mt-4">
+                    <div class="card-header bg-success text-white">
+                        <h6 class="mb-0"><i class="fas fa-lightbulb me-2"></i>نصائح مالية</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="tip-item mb-3">
+                            <small><i class="fas fa-check-circle text-success me-2"></i>خصص 20% من دخلك للتوفير</small>
+                        </div>
+                        <div class="tip-item mb-3">
+                            <small><i class="fas fa-check-circle text-success me-2"></i>تتبع مصروفاتك يومياً</small>
+                        </div>
+                        <div class="tip-item">
+                            <small><i class="fas fa-check-circle text-success me-2"></i>خطط لأهدافك المالية</small>
                         </div>
                     </div>
                 </div>
@@ -166,54 +315,50 @@
                 <div id="dashboard" class="content-section">
                     <div class="row mb-4">
                         <div class="col-md-3">
-                            <div class="card bg-success text-white">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <div>
-                                            <h6 class="card-title">إجمالي الدخل</h6>
-                                            <h3 id="totalIncome">0 ر.س</h3>
-                                        </div>
-                                        <i class="fas fa-money-bill-wave fa-2x opacity-50"></i>
+                            <div class="stat-card" style="background: linear-gradient(135deg, #00b894, #00a085);">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h6 class="mb-2">إجمالي الدخل</h6>
+                                        <h3 id="totalIncome">0 ر.س</h3>
+                                        <small class="opacity-80">هذا الشهر</small>
                                     </div>
+                                    <i class="fas fa-money-bill-wave icon"></i>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="card bg-danger text-white">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <div>
-                                            <h6 class="card-title">إجمالي المصروفات</h6>
-                                            <h3 id="totalExpense">0 ر.س</h3>
-                                        </div>
-                                        <i class="fas fa-shopping-cart fa-2x opacity-50"></i>
+                            <div class="stat-card" style="background: linear-gradient(135deg, #ea5455, #d63031);">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h6 class="mb-2">إجمالي المصروفات</h6>
+                                        <h3 id="totalExpense">0 ر.س</h3>
+                                        <small class="opacity-80">هذا الشهر</small>
                                     </div>
+                                    <i class="fas fa-shopping-cart icon"></i>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="card bg-primary text-white">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <div>
-                                            <h6 class="card-title">الرصيد الحالي</h6>
-                                            <h3 id="currentBalance">0 ر.س</h3>
-                                        </div>
-                                        <i class="fas fa-wallet fa-2x opacity-50"></i>
+                            <div class="stat-card" style="background: linear-gradient(135deg, #2d4059, #1a2a40);">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h6 class="mb-2">الرصيد الحالي</h6>
+                                        <h3 id="currentBalance">0 ر.س</h3>
+                                        <small class="opacity-80">صافي المدخرات</small>
                                     </div>
+                                    <i class="fas fa-wallet icon"></i>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="card bg-warning text-white">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <div>
-                                            <h6 class="card-title">المعاملات</h6>
-                                            <h3 id="totalTransactions">0</h3>
-                                        </div>
-                                        <i class="fas fa-exchange-alt fa-2x opacity-50"></i>
+                            <div class="stat-card" style="background: linear-gradient(135deg, #f07b3f, #e86a3d);">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h6 class="mb-2">المعاملات</h6>
+                                        <h3 id="totalTransactions">0</h3>
+                                        <small class="opacity-80">إجمالي الحركات</small>
                                     </div>
+                                    <i class="fas fa-exchange-alt icon"></i>
                                 </div>
                             </div>
                         </div>
@@ -224,20 +369,24 @@
                         <div class="col-md-6">
                             <div class="card shadow">
                                 <div class="card-header bg-info text-white">
-                                    <h5 class="mb-0"><i class="fas fa-chart-pie"></i> توزيع المصروفات</h5>
+                                    <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i>توزيع المصروفات</h5>
                                 </div>
-                                <div class="card-body" style="height: 300px;">
-                                    <canvas id="expensesChart"></canvas>
+                                <div class="card-body">
+                                    <div class="chart-container">
+                                        <canvas id="expensesChart"></canvas>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="card shadow">
                                 <div class="card-header bg-success text-white">
-                                    <h5 class="mb-0"><i class="fas fa-chart-line"></i> الدخل مقابل المصروفات</h5>
+                                    <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>الدخل مقابل المصروفات</h5>
                                 </div>
-                                <div class="card-body" style="height: 300px;">
-                                    <canvas id="incomeVsExpenseChart"></canvas>
+                                <div class="card-body">
+                                    <div class="chart-container">
+                                        <canvas id="incomeVsExpenseChart"></canvas>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -246,7 +395,7 @@
                     <!-- آخر المعاملات -->
                     <div class="card shadow">
                         <div class="card-header bg-primary text-white">
-                            <h5 class="mb-0"><i class="fas fa-history"></i> آخر المعاملات</h5>
+                            <h5 class="mb-0"><i class="fas fa-history me-2"></i>آخر المعاملات</h5>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -262,7 +411,10 @@
                                     </thead>
                                     <tbody id="recentTransactions">
                                         <tr>
-                                            <td colspan="5" class="text-center text-muted">لا توجد معاملات</td>
+                                            <td colspan="5" class="text-center text-muted py-4">
+                                                <i class="fas fa-receipt fa-2x mb-3 d-block"></i>
+                                                لا توجد معاملات سابقة
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -277,26 +429,26 @@
                         <div class="col-md-4">
                             <div class="card shadow">
                                 <div class="card-header bg-success text-white">
-                                    <h5 class="mb-0"><i class="fas fa-plus-circle"></i> إضافة معاملة جديدة</h5>
+                                    <h5 class="mb-0"><i class="fas fa-plus-circle me-2"></i>إضافة معاملة جديدة</h5>
                                 </div>
                                 <div class="card-body">
                                     <div class="mb-3">
-                                        <label class="form-label">النوع</label>
+                                        <label class="form-label">نوع المعاملة</label>
                                         <select class="form-select" id="typeSelect">
                                             <option value="income">دخل</option>
                                             <option value="expense">مصروف</option>
                                         </select>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label">الوصف</label>
+                                        <label class="form-label">وصف المعاملة</label>
                                         <input type="text" class="form-control" id="nameInput" placeholder="مثال: راتب شهر مارس">
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label">المبلغ (ريال)</label>
+                                        <label class="form-label">المبلغ (ريال سعودي)</label>
                                         <input type="number" class="form-control" id="amountInput" placeholder="مثال: 5000">
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label">التاريخ</label>
+                                        <label class="form-label">تاريخ المعاملة</label>
                                         <input type="date" class="form-control" id="dateInput">
                                     </div>
                                     <div class="mb-3">
@@ -306,7 +458,7 @@
                                         </select>
                                     </div>
                                     <button class="btn btn-success w-100" onclick="addTransaction()">
-                                        <i class="fas fa-save"></i> إضافة المعاملة
+                                        <i class="fas fa-save me-2"></i>إضافة المعاملة
                                     </button>
                                 </div>
                             </div>
@@ -314,14 +466,16 @@
                             <!-- إدارة الفئات -->
                             <div class="card shadow mt-4">
                                 <div class="card-header bg-info text-white">
-                                    <h5 class="mb-0"><i class="fas fa-cogs"></i> إدارة الفئات</h5>
+                                    <h5 class="mb-0"><i class="fas fa-tags me-2"></i>إدارة الفئات</h5>
                                 </div>
                                 <div class="card-body">
                                     <div class="input-group mb-3">
                                         <input type="text" class="form-control" id="newCategory" placeholder="أدخل فئة جديدة">
-                                        <button class="btn btn-info" onclick="addCategory()">إضافة</button>
+                                        <button class="btn btn-info" onclick="addCategory()">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
                                     </div>
-                                    <div id="categoryList">
+                                    <div id="categoryList" class="d-flex flex-wrap gap-2">
                                         <!-- تظهر الفئات هنا -->
                                     </div>
                                 </div>
@@ -331,11 +485,16 @@
                         <div class="col-md-8">
                             <div class="card shadow">
                                 <div class="card-header bg-primary text-white">
-                                    <h5 class="mb-0"><i class="fas fa-list"></i> السجل المالي</h5>
+                                    <h5 class="mb-0"><i class="fas fa-list me-2"></i>السجل المالي</h5>
                                 </div>
                                 <div class="card-body">
-                                    <div class="mb-3">
-                                        <input type="text" class="form-control" id="searchInput" placeholder="ابحث في السجل...">
+                                    <div class="mb-4">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="searchInput" placeholder="ابحث في السجل...">
+                                            <button class="btn btn-outline-primary">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                     <div class="table-responsive">
                                         <table class="table table-hover">
@@ -351,7 +510,10 @@
                                             </thead>
                                             <tbody id="transactionTable">
                                                 <tr>
-                                                    <td colspan="6" class="text-center text-muted">لا توجد معاملات</td>
+                                                    <td colspan="6" class="text-center text-muted py-4">
+                                                        <i class="fas fa-file-invoice fa-2x mb-3 d-block"></i>
+                                                        لا توجد معاملات مسجلة
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -366,54 +528,73 @@
                 <div id="loanCalculator" class="content-section">
                     <div class="card shadow">
                         <div class="card-header bg-warning text-white">
-                            <h4 class="mb-0"><i class="fas fa-hand-holding-usd"></i> حاسبة القروض الشخصية</h4>
+                            <h4 class="mb-0"><i class="fas fa-hand-holding-usd me-2"></i>حاسبة القروض الشخصية</h4>
                         </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">مبلغ القرض (ريال)</label>
-                                        <input type="number" class="form-control" id="loanAmount" value="50000" min="1000" step="1000">
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold">مبلغ القرض (ريال سعودي)</label>
+                                        <input type="number" class="form-control form-control-lg" id="loanAmount" value="50000" min="1000" step="1000">
                                     </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">مدة السداد (شهر)</label>
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold">مدة السداد (شهر)</label>
                                         <input type="range" class="form-range" id="loanTermRange" min="6" max="84" step="6" value="36">
-                                        <div class="d-flex justify-content-between">
-                                            <span>6 أشهر</span>
-                                            <span id="loanTermValue">36 أشهر</span>
-                                            <span>84 أشهر</span>
+                                        <div class="d-flex justify-content-between mt-2">
+                                            <span class="text-muted">6 أشهر</span>
+                                            <span id="loanTermValue" class="fw-bold text-primary">36 أشهر</span>
+                                            <span class="text-muted">84 أشهر</span>
                                         </div>
                                     </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">نسبة الفائدة السنوية (%)</label>
-                                        <input type="range" class="form-range" id="interestRateRange" min="1" max="20" step="0.5" value="8">
-                                        <div class="d-flex justify-content-between">
-                                            <span>1%</span>
-                                            <span id="interestRateValue">8%</span>
-                                            <span>20%</span>
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold">نسبة الفائدة السنوية (%)</label>
+                                        <input type="range" class="form-range" id="interestRateRange" min="1" max="20" step="0.5" value="5">
+                                        <div class="d-flex justify-content-between mt-2">
+                                            <span class="text-muted">1%</span>
+                                            <span id="interestRateValue" class="fw-bold text-primary">5%</span>
+                                            <span class="text-muted">20%</span>
                                         </div>
                                     </div>
-                                    <button class="btn btn-warning w-100 btn-lg" onclick="calculateLoan()">
-                                        <i class="fas fa-calculator"></i> احسب القرض
+                                    <button class="btn btn-warning w-100 btn-lg py-3" onclick="calculateLoan()">
+                                        <i class="fas fa-calculator me-2"></i> احسب القرض
                                     </button>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="card bg-light">
-                                        <div class="card-header">
-                                            <h5 class="mb-0">نتائج الحساب</h5>
+                                    <div class="card border-0 shadow-sm h-100">
+                                        <div class="card-header bg-light">
+                                            <h5 class="mb-0 text-dark"><i class="fas fa-file-invoice-dollar me-2"></i>نتائج الحساب</h5>
                                         </div>
                                         <div class="card-body">
-                                            <div id="loanResults" class="text-center py-4">
+                                            <div id="loanResults" class="text-center py-5">
+                                                <i class="fas fa-calculator fa-4x text-muted mb-4"></i>
                                                 <p class="text-muted mb-3">أدخل بيانات القرض للحصول على النتائج</p>
-                                                <i class="fas fa-calculator fa-3x text-muted"></i>
+                                                <small class="text-muted">اضغط على زر "احسب القرض"</small>
                                             </div>
                                             <div id="loanDetails" style="display: none;">
-                                                <table class="table table-sm">
-                                                    <tr><td>القسط الشهري</td><td id="monthlyPayment" class="fw-bold"></td></tr>
-                                                    <tr><td>إجمالي المبلغ</td><td id="totalPayment"></td></tr>
-                                                    <tr><td>إجمالي الفائدة</td><td id="totalInterest"></td></tr>
-                                                    <tr><td>نسبة الفائدة</td><td id="interestPercentage"></td></tr>
+                                                <div class="result-item text-center mb-4">
+                                                    <h2 class="text-warning fw-bold" id="monthlyPayment">0.00 ر.س</h2>
+                                                    <p class="text-muted">القسط الشهري</p>
+                                                </div>
+                                                <table class="table table-borderless">
+                                                    <tr>
+                                                        <td><i class="fas fa-money-bill-wave text-success me-2"></i>إجمالي المبلغ</td>
+                                                        <td class="text-end fw-bold" id="totalPayment">0.00 ر.س</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><i class="fas fa-coins text-danger me-2"></i>إجمالي الفائدة</td>
+                                                        <td class="text-end fw-bold" id="totalInterest">0.00 ر.س</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><i class="fas fa-percentage text-primary me-2"></i>نسبة الفائدة السنوية</td>
+                                                        <td class="text-end fw-bold" id="interestPercentage">0%</td>
+                                                    </tr>
                                                 </table>
+                                                <div class="alert alert-info mt-4">
+                                                    <small>
+                                                        <i class="fas fa-info-circle me-2"></i>
+                                                        هذه الحسابات تقريبية وقد تختلف قليلاً حسب المؤسسة المالية
+                                                    </small>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -427,56 +608,82 @@
                 <div id="mortgageCalculator" class="content-section">
                     <div class="card shadow">
                         <div class="card-header bg-info text-white">
-                            <h4 class="mb-0"><i class="fas fa-home"></i> حاسبة التمويل العقاري</h4>
+                            <h4 class="mb-0"><i class="fas fa-home me-2"></i>حاسبة التمويل العقاري</h4>
                         </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">سعر العقار (ريال)</label>
-                                        <input type="number" class="form-control" id="propertyPrice" value="500000" min="100000" step="10000">
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold">سعر العقار (ريال سعودي)</label>
+                                        <input type="number" class="form-control form-control-lg" id="propertyPrice" value="500000" min="100000" step="10000">
                                     </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">الدفعة الأولى (ريال)</label>
-                                        <input type="number" class="form-control" id="downPayment" value="100000" min="0" step="10000">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">مدة التمويل (سنة)</label>
-                                        <input type="range" class="form-range" id="mortgageYears" min="5" max="30" value="15">
-                                        <div class="d-flex justify-content-between">
-                                            <span>5 سنوات</span>
-                                            <span id="mortgageYearsValue">15 سنة</span>
-                                            <span>30 سنة</span>
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold">الدفعة الأولى (%)</label>
+                                        <input type="range" class="form-range" id="downPaymentPercent" min="10" max="50" step="5" value="20">
+                                        <div class="d-flex justify-content-between mt-2">
+                                            <span class="text-muted">10%</span>
+                                            <span id="downPaymentPercentValue" class="fw-bold text-primary">20%</span>
+                                            <span class="text-muted">50%</span>
                                         </div>
                                     </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">نسبة الفائدة (%)</label>
-                                        <input type="range" class="form-range" id="mortgageInterest" min="2" max="10" step="0.25" value="4">
-                                        <div class="d-flex justify-content-between">
-                                            <span>2%</span>
-                                            <span id="mortgageInterestValue">4%</span>
-                                            <span>10%</span>
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold">مدة التمويل (سنة)</label>
+                                        <input type="range" class="form-range" id="mortgageYears" min="5" max="30" step="5" value="15">
+                                        <div class="d-flex justify-content-between mt-2">
+                                            <span class="text-muted">5 سنوات</span>
+                                            <span id="mortgageYearsValue" class="fw-bold text-primary">15 سنة</span>
+                                            <span class="text-muted">30 سنة</span>
                                         </div>
                                     </div>
-                                    <button class="btn btn-info w-100 btn-lg" onclick="calculateMortgage()">
-                                        <i class="fas fa-home"></i> احسب التمويل
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold">نسبة الفائدة (%)</label>
+                                        <input type="range" class="form-range" id="mortgageInterest" min="2" max="8" step="0.25" value="4">
+                                        <div class="d-flex justify-content-between mt-2">
+                                            <span class="text-muted">2%</span>
+                                            <span id="mortgageInterestValue" class="fw-bold text-primary">4%</span>
+                                            <span class="text-muted">8%</span>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-info w-100 btn-lg py-3" onclick="calculateMortgage()">
+                                        <i class="fas fa-home me-2"></i> احسب التمويل
                                     </button>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="card bg-light">
-                                        <div class="card-header">
-                                            <h5 class="mb-0">نتائج التمويل العقاري</h5>
+                                    <div class="card border-0 shadow-sm h-100">
+                                        <div class="card-header bg-light">
+                                            <h5 class="mb-0 text-dark"><i class="fas fa-chart-line me-2"></i>نتائج التمويل العقاري</h5>
                                         </div>
                                         <div class="card-body">
-                                            <div id="mortgageResults" class="text-center py-4">
+                                            <div id="mortgageResults" class="text-center py-5">
+                                                <i class="fas fa-home fa-4x text-muted mb-4"></i>
                                                 <p class="text-muted">أدخل بيانات العقار للحصول على النتائج</p>
                                             </div>
                                             <div id="mortgageDetails" style="display: none;">
-                                                <table class="table table-sm">
-                                                    <tr><td>مبلغ التمويل</td><td id="mortgageAmount"></td></tr>
-                                                    <tr><td>القسط الشهري</td><td id="mortgageMonthly" class="fw-bold"></td></tr>
-                                                    <tr><td>إجمالي المبلغ</td><td id="mortgageTotal"></td></tr>
-                                                    <tr><td>إجمالي الفائدة</td><td id="mortgageInterestTotal"></td></tr>
+                                                <div class="result-item text-center mb-4">
+                                                    <h2 class="text-info fw-bold" id="mortgageMonthly">0.00 ر.س</h2>
+                                                    <p class="text-muted">القسط الشهري</p>
+                                                </div>
+                                                <table class="table table-borderless">
+                                                    <tr>
+                                                        <td><i class="fas fa-building text-info me-2"></i>سعر العقار</td>
+                                                        <td class="text-end fw-bold" id="propertyPriceValue">0.00 ر.س</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><i class="fas fa-hand-holding-usd text-success me-2"></i>الدفعة الأولى</td>
+                                                        <td class="text-end fw-bold" id="downPaymentValue">0.00 ر.س</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><i class="fas fa-money-bill-wave text-primary me-2"></i>مبلغ التمويل</td>
+                                                        <td class="text-end fw-bold" id="mortgageAmount">0.00 ر.س</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><i class="fas fa-coins text-danger me-2"></i>إجمالي الفائدة</td>
+                                                        <td class="text-end fw-bold" id="mortgageInterestTotal">0.00 ر.س</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><i class="fas fa-file-invoice-dollar text-warning me-2"></i>إجمالي المبلغ</td>
+                                                        <td class="text-end fw-bold" id="mortgageTotal">0.00 ر.س</td>
+                                                    </tr>
                                                 </table>
                                             </div>
                                         </div>
@@ -491,57 +698,76 @@
                 <div id="savingsCalculator" class="content-section">
                     <div class="card shadow">
                         <div class="card-header bg-success text-white">
-                            <h4 class="mb-0"><i class="fas fa-piggy-bank"></i> حاسبة التوفير والاستثمار</h4>
+                            <h4 class="mb-0"><i class="fas fa-piggy-bank me-2"></i>حاسبة التوفير والاستثمار</h4>
                         </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">المبلغ المبدئي (ريال)</label>
-                                        <input type="number" class="form-control" id="initialAmount" value="1000" min="0">
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold">المبلغ المبدئي (ريال سعودي)</label>
+                                        <input type="number" class="form-control form-control-lg" id="initialAmount" value="1000" min="0">
                                     </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">المبلغ الشهري (ريال)</label>
-                                        <input type="number" class="form-control" id="monthlyDeposit" value="500" min="0">
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold">المبلغ الشهري (ريال سعودي)</label>
+                                        <input type="number" class="form-control form-control-lg" id="monthlyDeposit" value="500" min="0">
                                     </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">مدة التوفير (سنة)</label>
-                                        <input type="range" class="form-range" id="savingsYears" min="1" max="30" value="10">
-                                        <div class="d-flex justify-content-between">
-                                            <span>1 سنة</span>
-                                            <span id="savingsYearsValue">10 سنوات</span>
-                                            <span>30 سنة</span>
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold">مدة التوفير (سنة)</label>
+                                        <input type="range" class="form-range" id="savingsYears" min="1" max="30" step="1" value="10">
+                                        <div class="d-flex justify-content-between mt-2">
+                                            <span class="text-muted">1 سنة</span>
+                                            <span id="savingsYearsValue" class="fw-bold text-primary">10 سنوات</span>
+                                            <span class="text-muted">30 سنة</span>
                                         </div>
                                     </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">العائد السنوي المتوقع (%)</label>
-                                        <input type="range" class="form-range" id="annualReturn" min="1" max="20" step="0.5" value="7">
-                                        <div class="d-flex justify-content-between">
-                                            <span>1%</span>
-                                            <span id="annualReturnValue">7%</span>
-                                            <span>20%</span>
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold">العائد السنوي المتوقع (%)</label>
+                                        <input type="range" class="form-range" id="annualReturn" min="1" max="15" step="0.5" value="7">
+                                        <div class="d-flex justify-content-between mt-2">
+                                            <span class="text-muted">1%</span>
+                                            <span id="annualReturnValue" class="fw-bold text-primary">7%</span>
+                                            <span class="text-muted">15%</span>
                                         </div>
                                     </div>
-                                    <button class="btn btn-success w-100 btn-lg" onclick="calculateSavings()">
-                                        <i class="fas fa-chart-line"></i> احسب التوفير
+                                    <button class="btn btn-success w-100 btn-lg py-3" onclick="calculateSavings()">
+                                        <i class="fas fa-chart-line me-2"></i> احسب التوفير
                                     </button>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="card bg-light">
-                                        <div class="card-header">
-                                            <h5 class="mb-0">نتائج التوفير</h5>
+                                    <div class="card border-0 shadow-sm h-100">
+                                        <div class="card-header bg-light">
+                                            <h5 class="mb-0 text-dark"><i class="fas fa-chart-area me-2"></i>نتائج التوفير</h5>
                                         </div>
                                         <div class="card-body">
-                                            <div id="savingsResults" class="text-center py-4">
+                                            <div id="savingsResults" class="text-center py-5">
+                                                <i class="fas fa-piggy-bank fa-4x text-muted mb-4"></i>
                                                 <p class="text-muted">أدخل بيانات التوفير للحصول على النتائج</p>
                                             </div>
                                             <div id="savingsDetails" style="display: none;">
-                                                <table class="table table-sm">
-                                                    <tr><td>المبلغ النهائي</td><td id="finalAmount" class="fw-bold"></td></tr>
-                                                    <tr><td>إجمالي المدخرات</td><td id="totalDeposits"></td></tr>
-                                                    <tr><td>إجمالي الأرباح</td><td id="totalEarnings"></td></tr>
-                                                    <tr><td>نسبة العائد</td><td id="earningsPercentage"></td></tr>
+                                                <div class="result-item text-center mb-4">
+                                                    <h2 class="text-success fw-bold" id="finalAmount">0.00 ر.س</h2>
+                                                    <p class="text-muted">المبلغ النهائي بعد الاستثمار</p>
+                                                </div>
+                                                <table class="table table-borderless">
+                                                    <tr>
+                                                        <td><i class="fas fa-wallet text-primary me-2"></i>إجمالي المدخرات</td>
+                                                        <td class="text-end fw-bold" id="totalDeposits">0.00 ر.س</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><i class="fas fa-chart-line text-success me-2"></i>إجمالي الأرباح</td>
+                                                        <td class="text-end fw-bold" id="totalEarnings">0.00 ر.س</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><i class="fas fa-percentage text-warning me-2"></i>نسبة العائد</td>
+                                                        <td class="text-end fw-bold" id="earningsPercentage">0%</td>
+                                                    </tr>
                                                 </table>
+                                                <div class="alert alert-warning mt-4">
+                                                    <small>
+                                                        <i class="fas fa-exclamation-triangle me-2"></i>
+                                                        الاستثمارات تحمل مخاطر، وهذه الحسابات تقديرية ولا تضمن أرباحاً فعلية
+                                                    </small>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -551,36 +777,422 @@
                     </div>
                 </div>
 
-                <!-- أقسام أخرى -->
+                <!-- قسم الميزانية والتخطيط -->
                 <div id="budgetPlanner" class="content-section">
                     <div class="card shadow">
                         <div class="card-header bg-primary text-white">
-                            <h4 class="mb-0"><i class="fas fa-chart-pie"></i> مخطط الميزانية</h4>
+                            <h4 class="mb-0"><i class="fas fa-chart-pie me-2"></i>الميزانية والتخطيط المالي</h4>
                         </div>
                         <div class="card-body">
-                            <p class="text-center text-muted">سيتم إضافة محتوى الميزانية قريباً</p>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="card bg-light mb-4">
+                                        <div class="card-body">
+                                            <h6 class="card-title mb-3"><i class="fas fa-calculator me-2"></i>تحديد الميزانية الشهرية</h6>
+                                            <div class="input-group mb-3">
+                                                <input type="number" class="form-control" id="monthlyBudget" value="5000" min="1000" step="100">
+                                                <span class="input-group-text">ر.س</span>
+                                            </div>
+                                            <button class="btn btn-primary w-100" onclick="setMonthlyBudget()">
+                                                <i class="fas fa-check me-2"></i>تعيين الميزانية
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="card bg-light">
+                                        <div class="card-body">
+                                            <h6 class="card-title mb-3"><i class="fas fa-tags me-2"></i>توزيع الميزانية</h6>
+                                            <div id="budgetDistribution">
+                                                <div class="budget-category mb-3">
+                                                    <div class="d-flex justify-content-between mb-1">
+                                                        <small>السكن والإيجار</small>
+                                                        <small>40%</small>
+                                                    </div>
+                                                    <div class="progress" style="height: 8px;">
+                                                        <div class="progress-bar bg-primary" style="width: 40%"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="budget-category mb-3">
+                                                    <div class="d-flex justify-content-between mb-1">
+                                                        <small>الطعام والمشروبات</small>
+                                                        <small>20%</small>
+                                                    </div>
+                                                    <div class="progress" style="height: 8px;">
+                                                        <div class="progress-bar bg-success" style="width: 20%"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="budget-category mb-3">
+                                                    <div class="d-flex justify-content-between mb-1">
+                                                        <small>المواصلات</small>
+                                                        <small>15%</small>
+                                                    </div>
+                                                    <div class="progress" style="height: 8px;">
+                                                        <div class="progress-bar bg-info" style="width: 15%"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="budget-category">
+                                                    <div class="d-flex justify-content-between mb-1">
+                                                        <small>التسلية والترفيه</small>
+                                                        <small>10%</small>
+                                                    </div>
+                                                    <div class="progress" style="height: 8px;">
+                                                        <div class="progress-bar bg-warning" style="width: 10%"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-8">
+                                    <div class="card bg-white mb-4">
+                                        <div class="card-body">
+                                            <h6 class="card-title mb-3"><i class="fas fa-chart-bar me-2"></i>مقارنة المصروفات بالميزانية</h6>
+                                            <div class="chart-container">
+                                                <canvas id="budgetChart"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="card bg-light h-100">
+                                                <div class="card-body">
+                                                    <h6 class="card-title mb-3"><i class="fas fa-exclamation-triangle text-warning me-2"></i>تجاوز الميزانية</h6>
+                                                    <div id="overBudgetAlerts">
+                                                        <div class="alert alert-warning py-2 mb-2">
+                                                            <small>
+                                                                <i class="fas fa-utensils me-1"></i>
+                                                                <strong>الطعام:</strong> تجاوزت الميزانية بـ 120 ر.س
+                                                            </small>
+                                                        </div>
+                                                        <div class="alert alert-warning py-2">
+                                                            <small>
+                                                                <i class="fas fa-car me-1"></i>
+                                                                <strong>المواصلات:</strong> تجاوزت الميزانية بـ 85 ر.س
+                                                            </small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="card bg-light h-100">
+                                                <div class="card-body">
+                                                    <h6 class="card-title mb-3"><i class="fas fa-check-circle text-success me-2"></i>تحت الميزانية</h6>
+                                                    <div id="underBudgetAlerts">
+                                                        <div class="alert alert-success py-2 mb-2">
+                                                            <small>
+                                                                <i class="fas fa-home me-1"></i>
+                                                                <strong>السكن:</strong> أقل من الميزانية بـ 200 ر.س
+                                                            </small>
+                                                        </div>
+                                                        <div class="alert alert-success py-2">
+                                                            <small>
+                                                                <i class="fas fa-tv me-1"></i>
+                                                                <strong>الترفيه:</strong> أقل من الميزانية بـ 150 ر.س
+                                                            </small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
+                <!-- قسم الأهداف المالية -->
                 <div id="financialGoals" class="content-section">
                     <div class="card shadow">
                         <div class="card-header bg-success text-white">
-                            <h4 class="mb-0"><i class="fas fa-bullseye"></i> الأهداف المالية</h4>
+                            <h4 class="mb-0"><i class="fas fa-bullseye me-2"></i>الأهداف المالية</h4>
                         </div>
                         <div class="card-body">
-                            <p class="text-center text-muted">سيتم إضافة محتوى الأهداف قريباً</p>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="card bg-light mb-4">
+                                        <div class="card-body">
+                                            <h6 class="card-title mb-3"><i class="fas fa-plus-circle me-2"></i>إضافة هدف جديد</h6>
+                                            <div class="mb-3">
+                                                <label class="form-label">اسم الهدف</label>
+                                                <input type="text" class="form-control" id="goalName" placeholder="مثال: شراء سيارة">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">المبلغ المطلوب (ر.س)</label>
+                                                <input type="number" class="form-control" id="goalAmount" placeholder="مثال: 50000">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">المدة (شهر)</label>
+                                                <input type="number" class="form-control" id="goalMonths" placeholder="مثال: 24">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">المبلغ الحالي (ر.س)</label>
+                                                <input type="number" class="form-control" id="goalCurrent" value="0">
+                                            </div>
+                                            <button class="btn btn-success w-100" onclick="addFinancialGoal()">
+                                                <i class="fas fa-plus me-2"></i>إضافة الهدف
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="card bg-light">
+                                        <div class="card-body">
+                                            <h6 class="card-title mb-3"><i class="fas fa-lightbulb me-2"></i>نصائح للأهداف</h6>
+                                            <div class="tip-list">
+                                                <div class="tip-item mb-2 p-2 bg-white rounded">
+                                                    <small><i class="fas fa-check text-success me-2"></i>قسّم الأهداف الكبيرة لأهداف صغيرة</small>
+                                                </div>
+                                                <div class="tip-item mb-2 p-2 bg-white rounded">
+                                                    <small><i class="fas fa-check text-success me-2"></i>خصص مبلغاً ثابتاً شهرياً لكل هدف</small>
+                                                </div>
+                                                <div class="tip-item p-2 bg-white rounded">
+                                                    <small><i class="fas fa-check text-success me-2"></i>راجع أهدافك شهرياً وعدّل إذا لزم</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-8">
+                                    <h5 class="mb-4"><i class="fas fa-list-check me-2"></i>قائمة أهدافي</h5>
+                                    <div id="goalsList">
+                                        <div class="card mb-3 border-success">
+                                            <div class="card-body">
+                                                <div class="row align-items-center">
+                                                    <div class="col-md-3">
+                                                        <h6 class="text-success mb-0">شراء سيارة</h6>
+                                                        <small class="text-muted">هدف جديد</small>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="mb-2">
+                                                            <div class="d-flex justify-content-between mb-1">
+                                                                <small>50,000 ر.س</small>
+                                                                <small>10%</small>
+                                                            </div>
+                                                            <div class="progress" style="height: 10px;">
+                                                                <div class="progress-bar bg-success" style="width: 10%"></div>
+                                                            </div>
+                                                        </div>
+                                                        <small class="text-muted">5,000 ر.س من 50,000 ر.س</small>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="text-end">
+                                                            <h6 class="text-primary mb-1">2,083 ر.س/شهر</h6>
+                                                            <small class="text-muted">لـ 24 شهراً</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="card mb-3 border-warning">
+                                            <div class="card-body">
+                                                <div class="row align-items-center">
+                                                    <div class="col-md-3">
+                                                        <h6 class="text-warning mb-0">رحلة عائلية</h6>
+                                                        <small class="text-muted">قيد التوفير</small>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="mb-2">
+                                                            <div class="d-flex justify-content-between mb-1">
+                                                                <small>30,000 ر.س</small>
+                                                                <small>50%</small>
+                                                            </div>
+                                                            <div class="progress" style="height: 10px;">
+                                                                <div class="progress-bar bg-warning" style="width: 50%"></div>
+                                                            </div>
+                                                        </div>
+                                                        <small class="text-muted">15,000 ر.س من 30,000 ر.س</small>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="text-end">
+                                                            <h6 class="text-primary mb-1">1,500 ر.س/شهر</h6>
+                                                            <small class="text-muted">لـ 10 أشهر متبقية</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="card border-info">
+                                            <div class="card-body">
+                                                <div class="row align-items-center">
+                                                    <div class="col-md-3">
+                                                        <h6 class="text-info mb-0">طوارئ</h6>
+                                                        <small class="text-muted">مكتمل</small>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <div class="mb-2">
+                                                            <div class="d-flex justify-content-between mb-1">
+                                                                <small>20,000 ر.س</small>
+                                                                <small>100%</small>
+                                                            </div>
+                                                            <div class="progress" style="height: 10px;">
+                                                                <div class="progress-bar bg-info" style="width: 100%"></div>
+                                                            </div>
+                                                        </div>
+                                                        <small class="text-muted">20,000 ر.س من 20,000 ر.س</small>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="text-end">
+                                                            <h6 class="text-success mb-1">مكتمل ✓</h6>
+                                                            <small class="text-muted">تم في 12 شهراً</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="card bg-light mt-4">
+                                        <div class="card-body">
+                                            <h6 class="card-title mb-3"><i class="fas fa-chart-pie me-2"></i>توزيع التوفير للأهداف</h6>
+                                            <div class="chart-container">
+                                                <canvas id="goalsChart"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
+                <!-- قسم التقارير والتحليلات -->
                 <div id="reports" class="content-section">
                     <div class="card shadow">
                         <div class="card-header bg-info text-white">
-                            <h4 class="mb-0"><i class="fas fa-file-invoice"></i> التقارير</h4>
+                            <h4 class="mb-0"><i class="fas fa-file-invoice me-2"></i>التقارير والتحليلات</h4>
                         </div>
                         <div class="card-body">
-                            <p class="text-center text-muted">سيتم إضافة محتوى التقارير قريباً</p>
+                            <div class="row mb-4">
+                                <div class="col-md-3">
+                                    <div class="card bg-light">
+                                        <div class="card-body text-center">
+                                            <h6 class="card-title">الفترة الزمنية</h6>
+                                            <select class="form-select" id="reportPeriod">
+                                                <option value="month">هذا الشهر</option>
+                                                <option value="quarter">هذا الربع</option>
+                                                <option value="year" selected>هذه السنة</option>
+                                                <option value="all">كل الفترة</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card bg-light">
+                                        <div class="card-body text-center">
+                                            <h6 class="card-title">نوع التقرير</h6>
+                                            <select class="form-select" id="reportType">
+                                                <option value="overview">نظرة عامة</option>
+                                                <option value="income">تقرير الدخل</option>
+                                                <option value="expenses">تقرير المصروفات</option>
+                                                <option value="savings">تقرير التوفير</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card bg-light">
+                                        <div class="card-body text-center">
+                                            <h6 class="card-title">التنسيق</h6>
+                                            <div class="btn-group w-100">
+                                                <button class="btn btn-outline-primary"><i class="fas fa-eye"></i> معاينة</button>
+                                                <button class="btn btn-outline-success"><i class="fas fa-download"></i> تصدير</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card bg-light">
+                                        <div class="card-body text-center">
+                                            <h6 class="card-title">إنشاء التقرير</h6>
+                                            <button class="btn btn-info w-100" onclick="generateReport()">
+                                                <i class="fas fa-file-pdf me-2"></i> إنشاء تقرير
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card bg-white mb-4">
+                                        <div class="card-body">
+                                            <h6 class="card-title mb-3"><i class="fas fa-chart-line me-2"></i>اتجاهات الدخل والمصروفات</h6>
+                                            <div class="chart-container">
+                                                <canvas id="trendsChart"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="card bg-white">
+                                        <div class="card-body">
+                                            <h6 class="card-title mb-3"><i class="fas fa-table me-2"></i>ملخص الأرقام</h6>
+                                            <table class="table table-sm">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>متوسط الدخل الشهري</td>
+                                                        <td class="text-end fw-bold">8,500 ر.س</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>متوسط المصروفات الشهرية</td>
+                                                        <td class="text-end fw-bold">6,200 ر.س</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>متوسط التوفير الشهري</td>
+                                                        <td class="text-end fw-bold text-success">2,300 ر.س</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>نسبة التوفير</td>
+                                                        <td class="text-end fw-bold text-success">27%</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="card bg-white mb-4">
+                                        <div class="card-body">
+                                            <h6 class="card-title mb-3"><i class="fas fa-chart-bar me-2"></i>أعلى الفئات إنفاقاً</h6>
+                                            <div class="chart-container">
+                                                <canvas id="topCategoriesChart"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="card bg-white">
+                                        <div class="card-body">
+                                            <h6 class="card-title mb-3"><i class="fas fa-star me-2"></i>الإنجازات والملاحظات</h6>
+                                            <div class="achievements-list">
+                                                <div class="achievement-item mb-3 p-3 bg-success bg-opacity-10 rounded">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div>
+                                                            <h6 class="mb-1">توفير قياسي</h6>
+                                                            <small class="text-muted">وفرت 3,500 ر.س هذا الشهر (أعلى توفير)</small>
+                                                        </div>
+                                                        <i class="fas fa-trophy text-warning fa-2x"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="achievement-item p-3 bg-info bg-opacity-10 rounded">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div>
+                                                            <h6 class="mb-1">انخفاض المصروفات</h6>
+                                                            <small class="text-muted">مصروفاتك أقل بـ 15% عن الشهر الماضي</small>
+                                                        </div>
+                                                        <i class="fas fa-chart-line text-info fa-2x"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -593,7 +1205,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">تعديل المعاملة</h5>
+                    <h5 class="modal-title"><i class="fas fa-edit me-2"></i>تعديل المعاملة</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
@@ -626,16 +1238,24 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
-                    <button type="button" class="btn btn-primary" onclick="saveEdit()">حفظ التعديلات</button>
+                    <button type="button" class="btn btn-primary" onclick="saveEdit()">
+                        <i class="fas fa-save me-2"></i>حفظ التعديلات
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- الفوتر -->
-    <footer class="footer mt-5 py-3 bg-dark text-white">
+    <footer class="footer mt-5 py-3">
         <div class="container text-center">
-            <p class="mb-0">المحاسب الشخصي المتكامل © 2024</p>
+            <p class="mb-0">
+                <i class="fas fa-calculator me-2"></i>
+                المحاسب الذكي - إدارة مالية ذكية © 2024
+            </p>
+            <small class="text-white opacity-75">
+                أداة متكاملة لإدارة الدخل والمصروفات والتخطيط المالي
+            </small>
         </div>
     </footer>
 
@@ -678,6 +1298,12 @@
             if (activeNav) {
                 activeNav.classList.add('active');
             }
+            
+            // تحديث التاريخ في النماذج
+            if (sectionId === 'transactions' || sectionId === 'financialGoals') {
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('dateInput') && (document.getElementById('dateInput').value = today);
+            }
         }
 
         // تهيئة عند تحميل الصفحة
@@ -686,46 +1312,16 @@
                 initializeApp();
             }
             
-            // إعداد مستمعين للأحداث
-            setupEventListeners();
-            
             // إعداد التواريخ
             const today = new Date().toISOString().split('T')[0];
-            document.getElementById('dateInput').value = today;
+            document.getElementById('dateInput') && (document.getElementById('dateInput').value = today);
             
-            // إعداد مستمعين لحاسبات العقار والتوفير
-            const mortgageYears = document.getElementById('mortgageYears');
-            const mortgageInterest = document.getElementById('mortgageInterest');
-            const savingsYears = document.getElementById('savingsYears');
-            const annualReturn = document.getElementById('annualReturn');
-            
-            if (mortgageYears) {
-                mortgageYears.addEventListener('input', function(e) {
-                    document.getElementById('mortgageYearsValue').textContent = e.target.value + ' سنة';
-                });
-            }
-            
-            if (mortgageInterest) {
-                mortgageInterest.addEventListener('input', function(e) {
-                    document.getElementById('mortgageInterestValue').textContent = e.target.value + '%';
-                });
-            }
-            
-            if (savingsYears) {
-                savingsYears.addEventListener('input', function(e) {
-                    document.getElementById('savingsYearsValue').textContent = e.target.value + ' سنوات';
-                });
-            }
-            
-            if (annualReturn) {
-                annualReturn.addEventListener('input', function(e) {
-                    document.getElementById('annualReturnValue').textContent = e.target.value + '%';
-                });
-            }
+            // إعداد مستمعين للأحداث
+            setupEventListeners();
         });
 
         function setupEventListeners() {
-            // تحديث القيم في حاسبة القروض
+            // حاسبة القروض
             const loanTermRange = document.getElementById('loanTermRange');
             const interestRateRange = document.getElementById('interestRateRange');
             
@@ -740,37 +1336,75 @@
                     document.getElementById('interestRateValue').textContent = e.target.value + '%';
                 });
             }
+            
+            // حاسبة العقار
+            const mortgageYears = document.getElementById('mortgageYears');
+            const mortgageInterest = document.getElementById('mortgageInterest');
+            const downPaymentPercent = document.getElementById('downPaymentPercent');
+            
+            if (mortgageYears) {
+                mortgageYears.addEventListener('input', function(e) {
+                    document.getElementById('mortgageYearsValue').textContent = e.target.value + ' سنة';
+                });
+            }
+            
+            if (mortgageInterest) {
+                mortgageInterest.addEventListener('input', function(e) {
+                    document.getElementById('mortgageInterestValue').textContent = e.target.value + '%';
+                });
+            }
+            
+            if (downPaymentPercent) {
+                downPaymentPercent.addEventListener('input', function(e) {
+                    document.getElementById('downPaymentPercentValue').textContent = e.target.value + '%';
+                });
+            }
+            
+            // حاسبة التوفير
+            const savingsYears = document.getElementById('savingsYears');
+            const annualReturn = document.getElementById('annualReturn');
+            
+            if (savingsYears) {
+                savingsYears.addEventListener('input', function(e) {
+                    document.getElementById('savingsYearsValue').textContent = e.target.value + ' سنوات';
+                });
+            }
+            
+            if (annualReturn) {
+                annualReturn.addEventListener('input', function(e) {
+                    document.getElementById('annualReturnValue').textContent = e.target.value + '%';
+                });
+            }
         }
 
-        // وظائف الحاسبة (مؤقتة حتى يأتي app.js)
-  window.calculateLoan = function() {
-    const amount = parseFloat(document.getElementById('loanAmount').value) || 50000;
-    const months = parseInt(document.getElementById('loanTermRange').value) || 36;
-    const rate = parseFloat(document.getElementById('interestRateRange').value) || 8;
-    
-    const monthlyRate = rate / 100 / 12;
-    const monthlyPayment = (amount * monthlyRate * Math.pow(1 + monthlyRate, months)) / 
-                         (Math.pow(1 + monthlyRate, months) - 1);
-    const totalPayment = monthlyPayment * months;
-    const totalInterest = totalPayment - amount;
-    
-    document.getElementById('monthlyPayment').textContent = monthlyPayment.toFixed(2) + ' ر.س';
-    document.getElementById('totalPayment').textContent = totalPayment.toFixed(2) + ' ر.س';
-    document.getElementById('totalInterest').textContent = totalInterest.toFixed(2) + ' ر.س';
-    
-    // إصلاح هنا: عرض نسبة الفائدة السنوية (المدخلة) بدل النسبة الإجمالية
-    document.getElementById('interestPercentage').textContent = rate.toFixed(2) + '%';
-    
-    document.getElementById('loanResults').style.display = 'none';
-    document.getElementById('loanDetails').style.display = 'block';
-};
+        // وظائف الحاسبة
+        window.calculateLoan = function() {
+            const amount = parseFloat(document.getElementById('loanAmount').value) || 50000;
+            const months = parseInt(document.getElementById('loanTermRange').value) || 36;
+            const rate = parseFloat(document.getElementById('interestRateRange').value) || 5;
+            
+            const monthlyRate = rate / 100 / 12;
+            const monthlyPayment = (amount * monthlyRate * Math.pow(1 + monthlyRate, months)) / 
+                                 (Math.pow(1 + monthlyRate, months) - 1);
+            const totalPayment = monthlyPayment * months;
+            const totalInterest = totalPayment - amount;
+            
+            document.getElementById('monthlyPayment').textContent = monthlyPayment.toFixed(2) + ' ر.س';
+            document.getElementById('totalPayment').textContent = totalPayment.toFixed(2) + ' ر.س';
+            document.getElementById('totalInterest').textContent = totalInterest.toFixed(2) + ' ر.س';
+            document.getElementById('interestPercentage').textContent = rate.toFixed(2) + '%';
+            
+            document.getElementById('loanResults').style.display = 'none';
+            document.getElementById('loanDetails').style.display = 'block';
+        };
 
         window.calculateMortgage = function() {
             const price = parseFloat(document.getElementById('propertyPrice').value) || 500000;
-            const downPayment = parseFloat(document.getElementById('downPayment').value) || 100000;
+            const downPercent = parseFloat(document.getElementById('downPaymentPercent').value) || 20;
             const years = parseInt(document.getElementById('mortgageYears').value) || 15;
             const rate = parseFloat(document.getElementById('mortgageInterest').value) || 4;
             
+            const downPayment = price * (downPercent / 100);
             const loanAmount = price - downPayment;
             const months = years * 12;
             const monthlyRate = rate / 100 / 12;
@@ -779,6 +1413,8 @@
             const totalPayment = monthlyPayment * months;
             const totalInterest = totalPayment - loanAmount;
             
+            document.getElementById('propertyPriceValue').textContent = price.toFixed(2) + ' ر.س';
+            document.getElementById('downPaymentValue').textContent = downPayment.toFixed(2) + ' ر.س';
             document.getElementById('mortgageAmount').textContent = loanAmount.toFixed(2) + ' ر.س';
             document.getElementById('mortgageMonthly').textContent = monthlyPayment.toFixed(2) + ' ر.س';
             document.getElementById('mortgageTotal').textContent = totalPayment.toFixed(2) + ' ر.س';
@@ -804,16 +1440,66 @@
             
             const totalDeposits = initial + (monthly * months);
             const totalEarnings = futureValue - totalDeposits;
+            const earningsPercentage = (totalEarnings / totalDeposits) * 100;
             
             document.getElementById('finalAmount').textContent = futureValue.toFixed(2) + ' ر.س';
             document.getElementById('totalDeposits').textContent = totalDeposits.toFixed(2) + ' ر.س';
             document.getElementById('totalEarnings').textContent = totalEarnings.toFixed(2) + ' ر.س';
-            document.getElementById('earningsPercentage').textContent = ((totalEarnings / totalDeposits) * 100).toFixed(2) + '%';
+            document.getElementById('earningsPercentage').textContent = earningsPercentage.toFixed(2) + '%';
             
             document.getElementById('savingsResults').style.display = 'none';
             document.getElementById('savingsDetails').style.display = 'block';
         };
+
+        // وظائف الميزانية
+        window.setMonthlyBudget = function() {
+            const budget = document.getElementById('monthlyBudget').value;
+            alert('تم تعيين الميزانية الشهرية: ' + budget + ' ر.س');
+            // هنا سيتم حفظ الميزانية في localStorage
+        };
+
+        // وظائف الأهداف
+        window.addFinancialGoal = function() {
+            const name = document.getElementById('goalName').value;
+            const amount = document.getElementById('goalAmount').value;
+            const months = document.getElementById('goalMonths').value;
+            const current = document.getElementById('goalCurrent').value;
+            
+            if (!name || !amount || !months) {
+                alert('الرجاء ملء جميع الحقول المطلوبة');
+                return;
+            }
+            
+            alert('تم إضافة الهدف: ' + name + ' بمبلغ ' + amount + ' ر.س');
+            // هنا سيتم حفظ الهدف في localStorage
+            
+            // تنظيف الحقول
+            document.getElementById('goalName').value = '';
+            document.getElementById('goalAmount').value = '';
+            document.getElementById('goalMonths').value = '';
+            document.getElementById('goalCurrent').value = '0';
+        };
+
+        // وظائف التقارير
+        window.generateReport = function() {
+            const period = document.getElementById('reportPeriod').value;
+            const type = document.getElementById('reportType').value;
+            
+            alert('جارٍ إنشاء تقرير ' + type + ' للفترة ' + period);
+            // هنا سيتم إنشاء التقرير
+        };
+
+        // تهيئة بعض القيم
+        document.addEventListener('DOMContentLoaded', function() {
+            // تحديث القيم الافتراضية
+            document.getElementById('loanTermValue').textContent = '36 أشهر';
+            document.getElementById('interestRateValue').textContent = '5%';
+            document.getElementById('downPaymentPercentValue').textContent = '20%';
+            document.getElementById('mortgageYearsValue').textContent = '15 سنة';
+            document.getElementById('mortgageInterestValue').textContent = '4%';
+            document.getElementById('savingsYearsValue').textContent = '10 سنوات';
+            document.getElementById('annualReturnValue').textContent = '7%';
+        });
     </script>
 </body>
 </html>
-
